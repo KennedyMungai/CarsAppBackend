@@ -1,6 +1,7 @@
 """The main entrypoint for the application"""
 from fastapi import FastAPI
 from database.db import init_db
+from routers.cars import cars_router
 
 app = FastAPI(
     title="Second Hand Cars",
@@ -20,3 +21,6 @@ async def database_connection():
 async def root() -> dict[str, str]:
     """The root endpoint"""
     return {"message": "Hello World"}
+
+
+app.include_router(cars_router)
