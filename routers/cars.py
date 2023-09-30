@@ -70,3 +70,26 @@ async def update_car_entry(_id: PydanticObjectId, car: Car):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Something went wrong"
         )
+
+
+@cars_router.delete("/{car_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_car_entry(car_id: PydanticObjectId) -> None:
+    """The endpoint to delete a car entry
+
+    Args:
+        car_id (PydanticObjectId): The id of the car
+
+    Raises:
+        HTTPException: A 404 is raised if the car entry to be deleted does not exist
+    """
+    car_to_delete = await Car.get(car_id)
+
+    if not car_to_delete:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Car entry not found"
+        )
+
+    car_to_delete.delete()
+
+    return None
