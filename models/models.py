@@ -16,7 +16,7 @@ class Car(Document):
 
     class Settings:
         """The settings for the car model"""
-        name = "cars"
+        name = "second_hand_cars"
 
     class Config:
         """The config for the car model"""
