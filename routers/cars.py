@@ -38,4 +38,35 @@ async def create_car(car: Car) -> Car:
         return car
     except:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Car entry already exists")
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Car entry already exists"
+        )
+
+
+@cars_router.put("/{car_id}", status_code=status.HTTP_202_ACCEPTED)
+async def update_car_entry(_id: PydanticObjectId, car: Car):
+    """The endpoint to make updates on the car entry
+
+    Args:
+        _id (PydanticObjectId): The id of the car
+        car (Car): The information being used to make the update
+
+    Raises:
+        HTTPException: A 404 is raised if the car entry to be updated does not exist
+        HTTPException: A 400 is raised if the update was not successful
+    """
+    car_to_update = await Car.find_one(_id)
+
+    if not car_to_update:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Car entry not found"
+        )
+
+    try:
+        car_to_update = car
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Something went wrong"
+        )
