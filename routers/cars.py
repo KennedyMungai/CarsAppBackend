@@ -64,7 +64,7 @@ async def update_car_entry(_id: PydanticObjectId, car: Car):
         )
 
     try:
-        car_to_update = car
+        car.update(car_to_update)
     except:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
