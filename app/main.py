@@ -1,5 +1,7 @@
 """The main entrypoint for the application"""
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from database.db import init_db
 from routers.cars import cars_router
 
@@ -7,6 +9,21 @@ app = FastAPI(
     title="Second Hand Cars",
     description="The backend of a second hand cars app",
     version="0.1.0"
+)
+
+origins = [
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "http://localhost",
+    "https://localhost"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
 
